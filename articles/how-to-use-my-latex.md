@@ -79,8 +79,7 @@ Use this templateをクリックし、
 
 ![Repository name](https://storage.googleapis.com/zenn-user-upload/82b99299f7d1-20220601.png)
 
-Repository nameに適当な名前を入力してリポジトリを作成してください。
-GitHubの処理が終了した後、自分のローカル環境にcloneしてください。
+Repository nameに適当な名前を入力してリポジトリを作成、GitHubの処理が終了した後、自分のローカル環境にcloneしてください。
 基本的にこの手順でリポジトリを作成し、文章を作成していきます。
 
 # 構築したシステムでのLaTeXソースのbuild方法
@@ -120,6 +119,7 @@ VSCodeには自動保存を行う設定があり、また、LaTeX-Workshopには
 
 ### GUIでbuild
 
+いちいち入力時にbuildが行われるとエラーメッセージが煩わしく、またbuildに時間がかかってしまうので、buildを行いたいときに実行するためこちらの設定をおすすめします。
 LaTeX-workshopのbuildボタンを押すと、buildが行われます。
 
 ![up-right](https://storage.googleapis.com/zenn-user-upload/d7fe347040e6-20220604.png)
@@ -131,16 +131,25 @@ LaTeX-workshopのbuildボタンを押すと、buildが行われます。
 上記画像の場合は`Recipe: compile`をクリックしてください。
 どちらの場合も、buildが完了すると、pdfファイルが生成されます。
 
-* gitでバージョンごとにちゃんとcommitして置いたほうが良いよ、後で使うから(ここから下はWIP)
+また、執筆が一区切りするごとに変更をcommitして置くことを推奨します。
+進行度の管理や差し戻しも簡単になりますし、また、指導教官に複数回確認してもらうときワンタッチで差分ファイルを生成できます。
 
+## latexindentを用いたフォーマット
 
-## latexindentを用いたフォーマット(ここから下はWIP)
+LaTeXにおけるコードのインデントは文章構造の理解などに役立ちます。
+というか、コードを記述するときにはインデントは必要不可欠なものです。
+ただ、文章を考えてキーボードを叩いているときにインデントまで気にする余裕はないかもしれません。
 
-* なんでいるのか
-* どう使うのか
-* 設定は発展途上
+例えば、pythonにはautopep8というパッケージが存在し、自動でコードを整形してくれます。
+同じように、LaTeXにもlatexindentというパッケージがあり、自動で整形をしてくれます。
 
-## latexdiff-vcを用いた差分表示
+![menu](https://storage.googleapis.com/zenn-user-upload/c86728fa2124-20220604.png)
+
+上記画像の`ドキュメントをフォーマット  Shift+Alt+F`をクリックするか、そこに表示されたショートカットキーを押下してください。設定に従って自動で整形されます。
+
+だたし、latexindentの設定ファイルである`localSettings.yaml`は発展途上です、バグや改善提案はissueに投げてください。
+
+## latexdiff-vcを用いた差分表示(ここから下はWIP)
 
 * 何が嬉しいのか
 * どう使うのか

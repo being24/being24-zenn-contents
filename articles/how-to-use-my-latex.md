@@ -147,21 +147,56 @@ LaTeXにおけるコードのインデントは文章構造の理解などに役
 
 上記画像の`ドキュメントをフォーマット  Shift+Alt+F`をクリックするか、そこに表示されたショートカットキーを押下してください。設定に従って自動で整形されます。
 
-だたし、latexindentの設定ファイルである`localSettings.yaml`は発展途上です、バグや改善提案はissueに投げてください。
+だたし、latexindentの設定ファイルである`localSettings.yaml`は発展途上です。バグや改善提案はissueに投げてください。
 
-## latexdiff-vcを用いた差分表示(ここから下はWIP)
+## latexdiff-vcを用いた差分表示
 
-* 何が嬉しいのか
-* どう使うのか
+実際に指導を受けながら論文を作成するとき、前回との差分を示してほしいと言われることがありますし、そのそも自分が確認するときも差分で表示できるとわかりやすくて嬉しいです。
+今回はgitでソースを管理することが前提なので、latexdiff-vcを用いて差分を表示できるようにします。
+
+使い方は簡単で、
+
+![left-side](https://storage.googleapis.com/zenn-user-upload/f52605233ba1-20220604.png)
+
+この画像の`Recipe: create_diff`をクリックしてください。
+
+実際にはdockerコンテナ内で`/bin/diff.sh`が実行されています。
+
+```shell
+#!/bin/bash
+
+git config --global --add safe.directory /workdir
+# 一つ前のコミットとこのコミットの差分
+latexdiff-vc -e utf8 -t CFONT --git --flatten --force -r HEAD main.tex
+
+# 現在と指定したIDの差分
+# latexdiff-vc -e utf8 -t CFONT --git --flatten --force -r commit-ID main.tex
+
+# 一つ前のタグと最新のタグの差分
+# git tag | sort -V | tail -n 2 | xargs -n 2 bash -c 'latexdiff-vc -e utf8 -t CFONT --git --flatten --force -r $0 -r $1 -t CFONT main.tex'
+```
+
+中身はこのようになっており、いくつかの方法が用意されています。
+
+現在は現コミットとその一つ前のコミットの差分が表示されますが、コミットIDを指定した差分表示や、タグ同士の差分表示ができます。この辺は適宜調整してください。
 
 ## Literの使い方
 
-* linterくらい使え
-* だからって盲信するな、印刷して音読しろ
-* (パラグラフ・ライティングとか使うといいよ)
+LaTeXで記述した文章に校正をかけることができます。
+記述した文章を[textlint](https://textlint.github.io/)とgithub actionsを使用して校正します。
+これはwordなどで行われる自動校正を代替することを目的としており、日本語的におかしな文章や表記ゆれをPRの形で指摘してくれます。
+
+こういった自動ツールで機械的な修正点を指摘することで、内容の推敲に集中できるようになります、が、**過信は禁物です**。あくまで機械的に指摘しているため精度は完璧とは言い難いです。このため、自分としては印刷した上で音読し、違和感がある言い回しなどを修正することを強く推奨します。
+
+使い方は単純で、PR時に自動でコメントをしてくれるので普段はdevブランチで作業し、一段落したらmain/masterブランチにPRを出しLinterで指摘点を確認、修正したり無視したりを決定するといいと思います。
+ただし、一回無視した指摘点は再度指摘されないので注意してください。
 
 ## github actionsを用いたbuildとrelease
 
-* なぜ？
+論文のバージョンを自分で指定し、releaseの形式でgithub上においておくことができます。
+バージョンの数字の付け方自体は自由ですが、git上でvから始まるタグをつけてpushすると[このように](https://github.com/being24/latex-template-ja/releases/tag/v1.0)その名前のreleaseが作成されます。
 
-## コントリビュート方法
+# 最後に
+
+ここまで、自分が作成・改造した論文執筆環境の構築方法、使い方をざっくりまとめました。
+この文章はgithubで管理しているので、issueやPRは歓迎です。質問もそちらからお願いします。

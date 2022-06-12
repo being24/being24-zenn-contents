@@ -1,3 +1,10 @@
+---
+title: VSCodeとDockerでLaTeXを用いた多機能論文執筆環境を整える
+emoji: 😸
+type: tech
+topics: [LaTeX, Docker, VSCode, Github, Deploy, CLI]
+published: false
+---
 # はじめに
 
 面倒なLaTeXの環境構築と論文執筆テンプレートを作った

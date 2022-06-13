@@ -94,7 +94,9 @@ Repository nameに適当な名前を入力してリポジトリを作成、GitHu
 たまに（よく？）main.texにすべて記述し、rootディレクトリに画像を置き、参考文献は直接ソースに記述するという論文を見ることがあります。
 たしかに出力されるpdfファイルの体裁は整っているかもしれませんが、可読性が低いしルートディレクトリはごちゃっとするし、参考文献の管理はおざなりになります。
 
-これらの問題を解消するため、自分が作成したテンプレートでは以下の前提で構築されています。
+## 今回使用するテンプレートの構造
+
+こういったの問題を解消するため、自分が作成したテンプレートでは以下の前提で構築されています。
 
 * subfileを用いた章(Chapter)を用いたファイル分割
 * 図や章ごとのtexファイルを専用のフォルダに格納
@@ -110,7 +112,7 @@ build時にはdockerを実行可能にしておく必要があります。
 ### 保存時に自動でbuild
 
 VSCodeには自動保存を行う設定があり、また、LaTeX-Workshopには保存時に自動でbuildを行う設定があります。
-作成したリポジトリ内の.vscode/settings.jsonの
+標準では保存時の自動buildを行わない設定になっていますが、保存時に自動でbuildを行わせる場合、作成したリポジトリ内の.vscode/settings.jsonの
 
 ```json
   "latex-workshop.latex.autoBuild.run": "never",
@@ -123,6 +125,7 @@ VSCodeには自動保存を行う設定があり、また、LaTeX-Workshopには
 ```
 
 に変更してください。
+この設定がonSaveになっていると保存時に自動的にbuildされますが、VSCodeの自動保存を有効にしている場合、構文の入力途中でbuildされエラーが出るなどの問題が生じるため手動でbuildする設定を標準にしています。
 
 ### GUIでbuild
 
@@ -187,7 +190,7 @@ latexdiff-vc -e utf8 -t CFONT --git --flatten --force -r HEAD main.tex
 
 現在は現コミットとその一つ前のコミットの差分が表示されますが、コミットIDを指定した差分表示や、タグ同士の差分表示ができます。この辺は適宜調整してください。
 
-## Literの使い方
+## Linterの使い方
 
 LaTeXで記述した文章に校正をかけることができます。
 記述した文章を[textlint](https://textlint.github.io/)とgithub actionsを使用して校正します。
@@ -201,7 +204,7 @@ LaTeXで記述した文章に校正をかけることができます。
 ## github actionsを用いたbuildとrelease
 
 論文のバージョンを自分で指定し、releaseの形式でgithub上においておくことができます。
-バージョンの数字の付け方自体は自由ですが、git上でvから始まるタグをつけてpushすると[このように](https://github.com/being24/latex-template-ja/releases/tag/v1.0)その名前のreleaseが作成されます。
+バージョンの数字の付け方自体は自由ですが、git上でvから始まるタグをつけてpushするとgithub actionsによってソースがbuildされ、[このように](https://github.com/being24/latex-template-ja/releases/tag/v1.0)その名前のreleaseが作成されます。
 
 # 最後に
 

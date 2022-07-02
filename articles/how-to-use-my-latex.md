@@ -18,7 +18,7 @@ https://github.com/being24/latex-docker
 $\LaTeX$を使っていますか？
 自分が所属する研究室では基本的に$\LaTeX$を使用する事が前提です。また、学会に論文を投稿するときにスタイルファイルでテンプレートを渡されることもあります。
 
-自分は学部と大学院で研究室を移っているのですが、学部時代の研究室は卒業論文をワードで執筆するようにと指定されました。控えめに言って地獄でした。（自分が使えこなせていなかったのかもしれませんが、図表が勝手に移動したりキャプションがずれたりフォントが勝手に変わったり変更してるのに変わらなかったり…）
+自分は学部と大学院で研究室を移っているのですが、学部時代の研究室は卒業論文をワードで執筆するようにと指定されました。控えめに言って地獄でした。(自分が使えこなせていなかったのかもしれませんが、図表が勝手に移動したりキャプションがずれたりフォントが勝手に変わったり変更してるのに変わらなかったり…)
 
 移動後の研究室では$\LaTeX$を使用しており、これまでは各々が独自に環境を構築していました。
 TeX Liveを自分でインストールする人もいればクラウド系のコンパイラを使う人もいて、それぞれ使用できるライブラリなどが微妙に食い違っている気持ちが悪い状態でした。
@@ -91,7 +91,7 @@ Repository nameに適当な名前を入力してリポジトリを作成、GitHu
 
 # 構築したシステムでの$\LaTeX$ソースのbuild方法
 
-たまに（よく？）main.texにすべて記述し、rootディレクトリに画像を置き、参考文献は直接ソースに記述するという論文を見ることがあります。
+たまに(よく？)main.texにすべて記述し、rootディレクトリに画像を置き、参考文献は直接ソースに記述するという論文を見ることがあります。
 たしかに出力されるpdfファイルの体裁は整っているかもしれませんが、可読性が低いしルートディレクトリはごちゃっとするし、参考文献の管理はおざなりになります。
 
 ## 今回使用するテンプレートの構造
@@ -210,3 +210,90 @@ LaTeXで記述した文章に校正をかけることができます。
 
 ここまで、自分が作成・改造した論文執筆環境の構築方法、使い方をざっくりまとめました。
 この文章はgithubで管理しているので、issueやPRは歓迎です。質問もそちらからお願いします。
+
+# 補遺
+
+研究室内で使って見た結果、いくつかの問題が発生したのでそれつにいて追記します。
+
+## 画像などを貼るときにエラーが起きる問題
+
+コード自体に問題が無いのに、エラーが生じることがあります。
+
+その時に表示されるエラーの例を下に示します。
+
+```shell
+extractbb:warning: Can't find file (figures/screen), or it is forbidden to read ...skipping
+
+extractbb:warning: Can't find file (shot.png), or it is forbidden to read ...skipping
+
+
+
+! LaTeX Error: Cannot determine size of graphic in figures/screen shot.xbb (no 
+BoundingBox).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.10 ...aphics[width=5cm]{figures/screen shot.png}
+```
+
+この例は、画像のファイル名に空白が含まれている場合に生じるエラーです。
+LaTeX側がファイル名を正しく認識できないために生じるため、ファイル名に空白を使用しないでください。
+その他にも、ファイル名・パスに日本語が用いられる場合などに同様の問題が生じます。
+詳細は以下のリンクを確認してください。
+
+http://www.ic.daito.ac.jp/~mizutani/tex/texfile_name.html
+
+## スラッシュバックスラッシュ問題
+
+VSCodeのエクスプローラから、対象のファイルを右クリックすることで相対パスを取得する事ができます。(絶対パスは使用しないでください)
+
+Windowsでは、その方法で取得される文字列は`figures\screenshot.png`となります。
+しかし、これをそのままLaTeXに渡すとエラーが起きてしまいます。これはlinuxとwindowsのパスの表し方の違いであるため、`figures/screenshot.png`と修正する必要があります。(バックスラッシュをスラッシュにする)
+
+## linter.shの改行コード問題
+
+![エラー画面](https://storage.googleapis.com/zenn-user-upload/20e25614588e-20220702.png)
+
+```shell
+[19:32:10] Format with command: docker
+[19:32:10] Format with command args: ["run","--rm","-v","%DIR%:/workdir","ghcr.io/being24/latex-docker","sh","/workdir/bin/linter.sh"]
+[19:32:12] Formatting failed with exit code 2
+[19:32:12] stderr: /workdir/bin/linter.sh: 2:
+: not found
+/workdir/bin/linter.sh: 5: Syntax error: word unexpected (expecting "do")
+```
+
+このエラーは、`bin/linter.sh`の改行コードがLFからCRLFに変更されている場合に生じます。改行コードをLFに変更してください。
+
+## 画像の幅の問題
+
+これは問題、というわけではありませんが記述します。
+多くのサンプルコードにおいて、画像を貼り付ける場合以下のようになっていると思います。
+
+```latex
+\begin{figure}
+    \centering
+    \includegraphics[width=5cm]{figures/screenshot.png}
+    \caption{スクリーンショット}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{figures/screenshot.png}
+    \caption{スクリーンショット}
+\end{figure}
+```
+
+確かにこれでも表示自体はされますが、表示サイズの指定を長さで指定するとカラムサイズの変更したときにうまくハマりませんし、画像サイズのスケールで指定すると、貼り付けたい画像のサイズで各々に調整が必要となり面倒です。このため、現在の行の幅を基準に画像の幅を指定すると良いと思います
+
+```latex
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/screenshot.png}
+    \caption{スクリーンショット}
+\end{figure}
+```
+
+(そもそもpngを貼るなと言う話もあるかもしれませんが…)

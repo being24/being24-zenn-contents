@@ -98,7 +98,7 @@ Repository nameに適当な名前を入力してリポジトリを作成、GitHu
 
 こういったの問題を解消するため、自分が作成したテンプレートでは以下の前提で構築されています。
 
-* subfileを用いた章(Chapter)を用いたファイル分割
+* subfileを使用し、章(Chapter)ごとにファイル分割
 * 図や章ごとのtexファイルを専用のフォルダに格納
 * BibLaTeXを[Mendeley](https://www.mendeley.com/)等の論文管理ソフトウェアから出力されるbibファイルで使用
 
@@ -245,7 +245,7 @@ LaTeX側がファイル名を正しく認識できないために生じるため
 
 http://www.ic.daito.ac.jp/~mizutani/tex/texfile_name.html
 
-## スラッシュバックスラッシュ問題
+## スラッシュ・バックスラッシュ問題
 
 VSCodeのエクスプローラから、対象のファイルを右クリックすることで相対パスを取得する事ができます。(絶対パスは使用しないでください)
 

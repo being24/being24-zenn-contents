@@ -316,3 +316,24 @@ $dvipdf = 'dvipdfmx -V 4 %O -o %D %S';
 ```
 
 に変更してください。
+
+## 学会指定のスタイルファイルがbuildできないとき
+
+'''shell
+! LaTeX Error: Encoding scheme `JY1' unknown.
+'''
+
+というエラーが出てbuildできないことがあります。
+これは、main.texの
+
+```latex
+\documentclass{jarticle}
+```
+
+の部分を
+
+```latex
+\documentclass{ujarticle}
+```
+
+に変更することで解決できます。

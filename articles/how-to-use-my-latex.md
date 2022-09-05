@@ -9,9 +9,9 @@ published: false
 
 面倒な$\LaTeX$の環境構築と論文執筆テンプレートを作った
 
-https://github.com/being24/latex-template-ja
+<https://github.com/being24/latex-template-ja>
 
-https://github.com/being24/latex-docker
+<https://github.com/being24/latex-docker>
 
 # 前提
 
@@ -243,7 +243,7 @@ LaTeX側がファイル名を正しく認識できないために生じるため
 その他にも、ファイル名・パスに日本語が用いられる場合などに同様の問題が生じます。
 詳細は以下のリンクを確認してください。
 
-http://www.ic.daito.ac.jp/~mizutani/tex/texfile_name.html
+<http://www.ic.daito.ac.jp/~mizutani/tex/texfile_name.html>
 
 ## スラッシュ・バックスラッシュ問題
 
@@ -319,9 +319,9 @@ $dvipdf = 'dvipdfmx -V 4 %O -o %D %S';
 
 ## 学会指定のスタイルファイルがbuildできないとき
 
-'''shell
+```shell
 ! LaTeX Error: Encoding scheme `JY1' unknown.
-'''
+```
 
 というエラーが出てbuildできないことがあります。
 これは、main.texの

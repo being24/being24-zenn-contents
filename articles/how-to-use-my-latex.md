@@ -9,9 +9,9 @@ published: false
 
 面倒な$\LaTeX$の環境構築と論文執筆テンプレートを作った
 
-<https://github.com/being24/latex-template-ja>
+https://github.com/being24/latex-template-ja
 
-<https://github.com/being24/latex-docker>
+https://github.com/being24/latex-docker
 
 # 前提
 

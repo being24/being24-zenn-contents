@@ -9,9 +9,9 @@ published: false
 
 面倒な$\LaTeX$の環境構築と論文執筆テンプレートを作った
 
-https://github.com/being24/latex-template-ja
+<https://github.com/being24/latex-template-ja>
 
-https://github.com/being24/latex-docker
+<https://github.com/being24/latex-docker>
 
 # 前提
 
@@ -266,6 +266,8 @@ Windowsでは、その方法で取得される文字列は`figures\screenshot.pn
 ```
 
 このエラーは、`bin/linter.sh`の改行コードがLFからCRLFに変更されている場合に生じます。改行コードをLFに変更してください。
+このエラーはwindows版gitのインストール時のオプションで、改行コードの自動変更が行われることが原因である可能性があります。
+最近のエディタは基本どの改行コードでも対応できると思うため、この設定を切ってしまうことをおすすめします。
 
 ## 画像の幅の問題
 

@@ -324,7 +324,7 @@ $dvipdf = 'dvipdfmx -V 4 %O -o %D %S';
 ```
 
 というエラーが出てbuildできないことがあります。
-これは、main.texの
+これは、指定されたクラスがjarticleであれば
 
 ```latex
 \documentclass{jarticle}
@@ -336,7 +336,19 @@ $dvipdf = 'dvipdfmx -V 4 %O -o %D %S';
 \documentclass{ujarticle}
 ```
 
-に変更することで解決できます。
+に変更することで、指定されたクラスがjsarticleであれば
+
+```latex
+\documentclass{jsarticle}
+```
+
+の部分を
+
+```latex
+\documentclass[uplatex]{jsarticle}
+```
+
+に変更することで解決します。
 
 ## 保存時にエラーが出る、buildが通らない等
 

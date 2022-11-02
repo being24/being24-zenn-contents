@@ -359,3 +359,10 @@ $dvipdf = 'dvipdfmx -V 4 %O -o %D %S';
 これは、fork後にこちらが更新した際に、fork元のテンプレートとの差分が発生してしまうためです。
 このため、fork変更を取り込む、fetch upstreamを行う必要があります。
 ただし、本リポジトリはtemplateとして使用できるようにしてあるため、PRを出す時以外はforkを行う必要はありません。
+
+## docker for windowsでbuild時に"user declined directory sharing"のエラーが出る場合
+
+docker for windowsのアップデートにより、localのディレクトリをdockerコンテナにマウントする際に、ユーザーの許可が必要になりました。
+これは、docker for windowsの設定画面から許可を与えることで解決できます。
+右上の歯車マークから設定を開き、Settings -> Resources -> FILE SHARINGに、sourceのディレクトリを追加してください。
+Apply & Restartを押すと、docker for windowsが再起動され、設定が適応できます。

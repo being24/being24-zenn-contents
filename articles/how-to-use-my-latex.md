@@ -5,7 +5,7 @@ type: tech
 topics: [LaTeX, Docker, VSCode, Github, Deploy, CLI]
 published: false
 ---
-# はじめに
+## はじめに
 
 面倒な$\LaTeX$の環境構築と論文執筆テンプレートを作った
 
@@ -13,7 +13,7 @@ https://github.com/being24/latex-template-ja
 
 https://github.com/being24/latex-docker
 
-# 前提
+## 前提
 
 $\LaTeX$を使っていますか？
 自分が所属する研究室では基本的に$\LaTeX$を使用する事が前提です。また、学会に論文を投稿するときにスタイルファイルでテンプレートを渡されることもあります。
@@ -27,6 +27,12 @@ TeX Liveを自分でインストールする人もいればクラウド系のコ
 
 さらに、今回の環境は研究室の後輩などが使用することを前提に構築したため使用者が$\LaTeX$以外の勉強をしなくてもとりあえず動くことを目標にしています。
 
+### 2023/01/11追記
+
+従来は[LaTeX workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)の機能を用いてdockerコマンドを直接叩いていましたが、[dev container](https://code.visualstudio.com/docs/devcontainers/containers)を使用したほうがパフォーマンスが向上することが判明したため、そちらに移行しています。
+
+現在のmasterブランチはそちらに移行しており、従来のバージョンはcommand_arcブランチに移動していますが、要望がない限り保守はしない予定です。
+
 ## $\LaTeX$の環境構築はDockerを使おう
 
 Dockerって便利ですよね、可搬性も高いですしアーキテクチャが同じならどの環境でも同じように動きます。一回docker imageをbuild・pushしてしまえばあとは
@@ -37,13 +43,13 @@ docker pull ghcr.io/being24/latex-docker:latest
 
 で環境が構築できます。
 
-## 今回使用するimageについて
+### 今回使用するimageについて
 
 [このリポジトリ](https://github.com/pddg/latex-docker)をお借りし一部変更した[このリポジトリ](https://github.com/being24/latex-docker)のimageを使用します。個人的に必要だと思った[minted](https://ctan.org/pkg/minted)や[latexindent](https://www.ctan.org/pkg/latexindent)、[siunitx](https://ctan.org/pkg/siunitx)が動くように改変してあります。
 
 Dockerのインストールや仕組みの解説は専門の方々にお任せします。
 
-## VSCodeとgithubによる執筆環境の構築・共有
+### VSCodeとgithubによる執筆環境の構築・共有
 
 上で述べた通り、初学者でもとりあえず動くことを目標に環境を構築していきます。
 構築した環境のテンプレートは[こちら](https://github.com/being24/latex-template-ja)においてあります。
@@ -51,11 +57,14 @@ Dockerのインストールや仕組みの解説は専門の方々にお任せ�
 VSCodeは.vscode内にsettings.jsonが存在する場合、個人設定を上書きしてくれます。
 よって、必要な環境を構築した上でこのリポジトリのテンプレートを用いることですべての設定が完結します。
 
-# $\LaTeX$のbuildができる環境の構築
+## $\LaTeX$のbuildができる環境の構築
 
-## ソフトウェアのインストール
+### Buildソフトウェアのインストール
 
 早速$\LaTeX$ソースをビルドできる環境を整えていきます。
+
+**この記事の内容を使用する場合は、必ずdockerが使用できる状態にしておいてください！！**
+
 必要なソフトウェアは
 
 * [VSCode](https://code.visualstudio.com/)
@@ -66,6 +75,7 @@ VSCodeは.vscode内にsettings.jsonが存在する場合、個人設定を上書
   * **sudoコマンド無しでdockerを使用できるようにしておいてください**
 * [git](https://git-scm.com/)
 
+です。
 また、githubのアカウントを作成しgitの初期設定を行い、
 
 ```bash
@@ -74,7 +84,7 @@ docker pull ghcr.io/being24/latex-docker:latest
 
 を実行して環境構築済みのimageをローカルにpullしてください。
 
-## テンプレートのclone
+### テンプレートのclone
 
 github上に存在するリポジトリはcloneによってローカル環境にダウンロードできます。
 
@@ -86,15 +96,16 @@ Use this templateをクリックし、
 
 ![Repository name](https://storage.googleapis.com/zenn-user-upload/82b99299f7d1-20220601.png)
 
-Repository nameに適当な名前を入力してリポジトリを作成、GitHubの処理が終了した後、自分のローカル環境にcloneしてください。
+Repository nameに適当な名前を入力してリポジトリを作成、GitHubの処理が終了した後、自分のローカル環境にcloneしてください。vscodeを使用してクローンしたリポジトリを開くとvscodeが右下のポップアップで、推奨される拡張機能のインストールと、dev containerを使用するかどうかの質問をしてくれます。すべてyesで進めてください。
+
 基本的にこの手順でリポジトリを作成し、文章を作成していきます。
 
-# 構築したシステムでの$\LaTeX$ソースのbuild方法
+## 構築したシステムでの$\LaTeX$ソースのbuild方法
 
 たまに(よく？)main.texにすべて記述し、rootディレクトリに画像を置き、参考文献は直接ソースに記述するという論文を見ることがあります。
 たしかに出力されるpdfファイルの体裁は整っているかもしれませんが、可読性が低いしルートディレクトリはごちゃっとするし、参考文献の管理はおざなりになります。
 
-## 今回使用するテンプレートの構造
+### 今回使用するテンプレートの構造
 
 こういったの問題を解消するため、自分が作成したテンプレートでは以下の前提で構築されています。
 
@@ -104,12 +115,12 @@ Repository nameに適当な名前を入力してリポジトリを作成、GitHu
 
 これらによって、できるだけ整理された状態を維持します。
 
-## build方法
+### build方法
 
 texファイルにソースを書いたあと、pdfファイルを作成するにはいくつかの方法があります。
 build時にはdockerを実行可能にしておく必要があります。
 
-### 保存時に自動でbuild
+#### 保存時に自動でbuild
 
 VSCodeには自動保存を行う設定があり、また、LaTeX-Workshopには保存時に自動でbuildを行う設定があります。
 標準では保存時の自動buildを行わない設定になっていますが、保存時に自動でbuildを行わせる場合、作成したリポジトリ内の.vscode/settings.jsonの
@@ -127,7 +138,7 @@ VSCodeには自動保存を行う設定があり、また、LaTeX-Workshopには
 に変更してください。
 この設定がonSaveになっていると保存時に自動的にbuildされますが、VSCodeの自動保存を有効にしている場合、構文の入力途中でbuildされエラーが出るなどの問題が生じるため手動でbuildする設定を標準にしています。
 
-### GUIでbuild
+#### GUIでbuild
 
 いちいち入力時にbuildが行われるとエラーメッセージが煩わしく、またbuildに時間がかかってしまうので、buildを行いたいときに実行するためこちらの設定をおすすめします。
 LaTeX-workshopのbuildボタンを押すと、buildが行われます。
@@ -144,7 +155,7 @@ LaTeX-workshopのbuildボタンを押すと、buildが行われます。
 また、執筆が一区切りするごとに変更をcommitして置くことを推奨します。
 進行度の管理や差し戻しも簡単になりますし、また、指導教官に複数回確認してもらうときワンタッチで差分ファイルを生成できます。
 
-## latexindentを用いたフォーマット
+### latexindentを用いたフォーマット
 
 LaTeXにおけるコードのインデントは文章構造の理解などに役立ちます。
 というか、コードを記述するときにはインデントは必要不可欠なものです。
@@ -159,7 +170,7 @@ LaTeXにおけるコードのインデントは文章構造の理解などに役
 
 だたし、latexindentの設定ファイルである`localSettings.yaml`は発展途上です。バグや改善提案はissueに投げてください。
 
-## latexdiff-vcを用いた差分表示
+### latexdiff-vcを用いた差分表示
 
 実際に指導を受けながら論文を作成するとき、前回との差分を示してほしいと言われることがありますし、そのそも自分が確認するときも差分で表示できるとわかりやすくて嬉しいです。
 今回はgitでソースを管理することが前提なので、latexdiff-vcを用いて差分を表示できるようにします。
@@ -190,7 +201,7 @@ latexdiff-vc -e utf8 -t CFONT --git --flatten --force -r HEAD main.tex
 
 現在は現コミットとその一つ前のコミットの差分が表示されますが、コミットIDを指定した差分表示や、タグ同士の差分表示ができます。この辺は適宜調整してください。
 
-## Linterの使い方
+### Linterの使い方
 
 LaTeXで記述した文章に校正をかけることができます。
 記述した文章を[textlint](https://textlint.github.io/)とgithub actionsを使用して校正します。
@@ -201,21 +212,21 @@ LaTeXで記述した文章に校正をかけることができます。
 使い方は単純で、PR時に自動でコメントをしてくれるので普段はdevブランチで作業し、一段落したらmain/masterブランチにPRを出しLinterで指摘点を確認、修正したり無視したりを決定するといいと思います。
 ただし、一回無視した指摘点は再度指摘されないので注意してください。
 
-## github actionsを用いたbuildとrelease
+### github actionsを用いたbuildとrelease
 
 論文のバージョンを自分で指定し、releaseの形式でgithub上においておくことができます。
 バージョンの数字の付け方自体は自由ですが、git上でvから始まるタグをつけてpushするとgithub actionsによってソースがbuildされ、[このように](https://github.com/being24/latex-template-ja/releases/tag/v1.0)その名前のreleaseが作成されます。
 
-# 最後に
+## 最後に
 
 ここまで、自分が作成・改造した論文執筆環境の構築方法、使い方をざっくりまとめました。
 この文章はgithubで管理しているので、issueやPRは歓迎です。質問もそちらからお願いします。
 
-# 補遺
+## 補遺
 
 研究室内で使って見た結果、いくつかの問題が発生したのでそれつにいて追記します。
 
-## 画像などを貼るときにエラーが起きる問題
+### 画像などを貼るときにエラーが起きる問題
 
 コード自体に問題が無いのに、エラーが生じることがあります。
 
@@ -245,14 +256,14 @@ LaTeX側がファイル名を正しく認識できないために生じるため
 
 <http://www.ic.daito.ac.jp/~mizutani/tex/texfile_name.html>
 
-## スラッシュ・バックスラッシュ問題
+### スラッシュ・バックスラッシュ問題
 
 VSCodeのエクスプローラから、対象のファイルを右クリックすることで相対パスを取得する事ができます。(絶対パスは使用しないでください)
 
 Windowsでは、その方法で取得される文字列は`figures\screenshot.png`となります。
 しかし、これをそのままLaTeXに渡すとエラーが起きてしまいます。これはlinuxとwindowsのパスの表し方の違いであるため、`figures/screenshot.png`と修正する必要があります。(バックスラッシュをスラッシュにする)
 
-## linter.shの改行コード問題
+### linter.shの改行コード問題
 
 ![エラー画面](https://storage.googleapis.com/zenn-user-upload/20e25614588e-20220702.png)
 
@@ -269,7 +280,7 @@ Windowsでは、その方法で取得される文字列は`figures\screenshot.pn
 このエラーはwindows版gitのインストール時のオプションで、改行コードの自動変更が行われることが原因である可能性があります。
 最近のエディタは基本どの改行コードでも対応できると思うため、この設定を切ってしまうことをおすすめします。
 
-## 画像の幅の問題
+### 画像の幅の問題
 
 これは問題、というわけではありませんが記述します。
 多くのサンプルコードにおいて、画像を貼り付ける場合以下のようになっていると思います。
@@ -300,7 +311,7 @@ Windowsでは、その方法で取得される文字列は`figures\screenshot.pn
 
 (そもそもpngを貼るなと言う話もあるかもしれませんが…)
 
-## 学会提出用の論文作成時のエラー
+### 学会提出用の論文作成時のエラー
 
 実際に後輩が遭遇していた例ですが、論文を学会に提出する際に”未対応の圧縮形式”というエラーが出ることがあります。
 画像の圧縮を解除する等の方法が提示されていますが、我々の環境では`dvipdfmx`のオプションで出力されるPDFのバージョンを変更することで対応できました。
@@ -319,7 +330,7 @@ $dvipdf = 'dvipdfmx -V 4 %O -o %D %S';
 
 に変更してください。
 
-## 学会指定のスタイルファイルがbuildできないとき
+### 学会指定のスタイルファイルがbuildできないとき
 
 ```shell
 ! LaTeX Error: Encoding scheme `JY1' unknown.
@@ -352,7 +363,7 @@ $dvipdf = 'dvipdfmx -V 4 %O -o %D %S';
 
 に変更することで解決します。
 
-## 保存時にエラーが出る、buildが通らない等
+### 保存時にエラーが出る、buildが通らない等
 
 このテンプレートを自分のアカウントにforkして使っていると、保存時にエラーが出たり、buildが通らなかったりすることがあります。
 
@@ -360,7 +371,7 @@ $dvipdf = 'dvipdfmx -V 4 %O -o %D %S';
 このため、fork変更を取り込む、fetch upstreamを行う必要があります。
 ただし、本リポジトリはtemplateとして使用できるようにしてあるため、PRを出す時以外はforkを行う必要はありません。
 
-## docker for windowsでbuild時に"user declined directory sharing"のエラーが出る場合
+### docker for windowsでbuild時に"user declined directory sharing"のエラーが出る場合
 
 docker for windowsのアップデートにより、localのディレクトリをdockerコンテナにマウントする際に、ユーザーの許可が必要になりました。
 これは、docker for windowsの設定画面から許可を与えることで解決できます。

@@ -377,3 +377,43 @@ docker for windowsのアップデートにより、localのディレクトリを
 これは、docker for windowsの設定画面から許可を与えることで解決できます。
 右上の歯車マークから設定を開き、Settings -> Resources -> FILE SHARINGに、sourceのディレクトリを追加してください。
 Apply & Restartを押すと、docker for windowsが再起動され、設定が適応できます。
+
+### gitの追跡が遅い、もしくは行われない場合
+
+WSL2側の問題のようです、手動でsyncボタンを押すと反映されます。
+
+### reference.bibに文献を追加したらエラーが出る、reference以降のページが表示されない、など
+
+logファイルを確認すると
+
+  ```shell
+  ! Arithmetic overflow.
+  <to be read again>
+                    =
+  l.5 \printbibliography[title=参考文献]
+  ```
+
+や
+
+  ```shell
+  ! Improper alphabetic or KANJI constant.
+  <to be read again> 
+                    \q__text_recursion_tail 
+  l.5 \printbibliography[title=参考文献]
+  ```
+
+などのエラーが出ることがあります。
+これは、最近biblatexもしくはbiberに関連するなにかの仕様が変更された事によるものだと思われます。
+この場合、reference.bibのtitleの日本語部分を{}で囲うことで解決できます。例えば
+
+  ```latex
+  title   = {あいうえお},
+  ```
+
+  を
+
+  ```latex
+  title   = {{あいうえお}},
+  ```
+
+  に変更してください。

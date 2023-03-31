@@ -427,7 +427,7 @@ logファイルを確認すると
 ### 参考文献(biblatex)の書式変更について
 
 参考文献の記述方法は多岐にわたりますが、本環境ではバックエンドにbiberを使用しているため、junsrtなどをそのまま使用することができません。
-biber使用時は以前の記述方法は使用できず、biber用のjunsrtは提供されていないため、互換用として提供されいてるこの[trad-unsrt style](https://github.com/moewew/biblatex-trad)を使用し、細かい設定を自分で修正する必要があります。
+biber使用時は以前の記述方法は使用できず、biber用のjunsrtは提供されていないため、互換用として提供されいてる[trad-unsrt style](https://github.com/moewew/biblatex-trad)を使用し、細かい設定を自分で修正する必要があります。
 
 ```latex
 \usepackage[backend=biber,style=ieee]{biblatex} % biblatexを使用するためのパッケージ

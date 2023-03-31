@@ -423,3 +423,25 @@ logファイルを確認すると
   ```
 
   に変更してください。
+
+## 参考文献(biblatex)の書式変更について
+
+参考文献の記述方法は多岐にわたりますが、本環境ではバックエンドにbiberを使用しているため、junsrtなどをそのまま使用することができません。
+biber使用時は以前の記述方法は使用できず、biber用のjunsrtは提供されていないため、互換用として提供されいてるこの[trad-unsrt style](https://github.com/moewew/biblatex-trad)を使用し、細かい設定を自分で修正する必要があります。
+
+```latex
+\usepackage[backend=biber,style=ieee]{biblatex} % biblatexを使用するためのパッケージ
+\addbibresource{references.bib}
+```
+
+これを以下のように変更します。
+
+```latex
+\usepackage[backend=biber,style=trad-unsrt]{biblatex} % biblatexを使用するためのパッケージ
+\addbibresource{references.bib}
+\DeclareFieldFormat{journaltitle}{\textit{#1}}
+```
+
+trad-unsrtだけでは、日本語の文献名が太字になってしまうため、`journaltitle`の書式を上書きしています。
+
+[参考文献](https://okumuralab.org/tex/mod/forum/discuss.php?d=3336#p20271)

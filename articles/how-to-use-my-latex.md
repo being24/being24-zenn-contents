@@ -170,37 +170,6 @@ LaTeXにおけるコードのインデントは文章構造の理解などに役
 
 だたし、latexindentの設定ファイルである`localSettings.yaml`は発展途上です。バグや改善提案はissueに投げてください。
 
-<!-- ### latexdiff-vcを用いた差分表示
-
-実際に指導を受けながら論文を作成するとき、前回との差分を示してほしいと言われることがありますし、そのそも自分が確認するときも差分で表示できるとわかりやすくて嬉しいです。
-今回はgitでソースを管理することが前提なので、latexdiff-vcを用いて差分を表示できるようにします。
-
-使い方は簡単で、
-
-![left-side](https://storage.googleapis.com/zenn-user-upload/f52605233ba1-20220604.png)
-
-この画像の`Recipe: create_diff`をクリックしてください。
-
-実際にはdockerコンテナ内で`/bin/diff.sh`が実行されています。
-
-```shell
-#!/bin/bash
-
-git config --global --add safe.directory /workdir
-# 一つ前のコミットとこのコミットの差分
-latexdiff-vc -e utf8 -t CFONT --git --flatten --force -r HEAD main.tex
-
-# 現在と指定したIDの差分
-# latexdiff-vc -e utf8 -t CFONT --git --flatten --force -r commit-ID main.tex
-
-# 一つ前のタグと最新のタグの差分
-# git tag | sort -V | tail -n 2 | xargs -n 2 bash -c 'latexdiff-vc -e utf8 -t CFONT --git --flatten --force -r $0 -r $1 -t CFONT main.tex'
-```
-
-中身はこのようになっており、いくつかの方法が用意されています。
-
-現在は現コミットとその一つ前のコミットの差分が表示されますが、コミットIDを指定した差分表示や、タグ同士の差分表示ができます。この辺は適宜調整してください。 -->
-
 ### Linterの使い方
 
 LaTeXで記述した文章に校正をかけることができます。

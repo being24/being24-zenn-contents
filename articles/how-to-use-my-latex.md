@@ -170,7 +170,7 @@ LaTeXにおけるコードのインデントは文章構造の理解などに役
 
 だたし、latexindentの設定ファイルである`localSettings.yaml`は発展途上です。バグや改善提案はissueに投げてください。
 
-### latexdiff-vcを用いた差分表示
+<!-- ### latexdiff-vcを用いた差分表示
 
 実際に指導を受けながら論文を作成するとき、前回との差分を示してほしいと言われることがありますし、そのそも自分が確認するときも差分で表示できるとわかりやすくて嬉しいです。
 今回はgitでソースを管理することが前提なので、latexdiff-vcを用いて差分を表示できるようにします。
@@ -199,7 +199,7 @@ latexdiff-vc -e utf8 -t CFONT --git --flatten --force -r HEAD main.tex
 
 中身はこのようになっており、いくつかの方法が用意されています。
 
-現在は現コミットとその一つ前のコミットの差分が表示されますが、コミットIDを指定した差分表示や、タグ同士の差分表示ができます。この辺は適宜調整してください。
+現在は現コミットとその一つ前のコミットの差分が表示されますが、コミットIDを指定した差分表示や、タグ同士の差分表示ができます。この辺は適宜調整してください。 -->
 
 ### Linterの使い方
 
@@ -311,6 +311,18 @@ Windowsでは、その方法で取得される文字列は`figures\screenshot.pn
 
 (そもそもpngを貼るなと言う話もあるかもしれませんが…)
 
+### svgファイルを貼り付けるとき
+
+svgファイルを貼り付けるとき、svg packageを使用する方法や、pdfに変換して貼り付ける方法があります。
+
+この環境ではどちらも対応できますが、inkscapeを使用してPDFに変換するスクリプトを用意しています。
+
+```shell
+sh ./bin/svg2pdf.sh
+```
+
+このスクリプトを使用すると、`figures`ディレクトリ以下のsvgファイルをすべてPDFに変換します。このとき、図のテキストはすべてパスに変換されます。パスに変換する必要ない場合は、`--export-text-to-path`オプションを削除してください。
+
 ### 学会提出用の論文作成時のエラー
 
 実際に後輩が遭遇していた例ですが、論文を学会に提出する際に”未対応の圧縮形式”というエラーが出ることがあります。
@@ -331,6 +343,22 @@ $dvipdf = 'dvipdfmx -V 4 %O -o %D %S';
 に変更してください。
 
 ### 学会指定のスタイルファイルがbuildできないとき
+
+本テンプレートは、LuaLaTeXでのビルドを前提としていますが、学会によっては、(u)pLaTeXでのビルドを指定している場合があります。
+
+そういった場合は、`.latexmkrc`の中の
+
+```perl
+$latex = 'lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error --shell-escape %S';
+```
+
+を
+
+```perl
+$latex = 'uplatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error --shell-escape %S';
+```
+
+に変更してください。この変更を行っても
 
 ```shell
 ! LaTeX Error: Encoding scheme `JY1' unknown.
@@ -362,6 +390,20 @@ $dvipdf = 'dvipdfmx -V 4 %O -o %D %S';
 ```
 
 に変更することで解決します。
+
+また、学会によってはjarticle等を使用していない場合があります。そういった場合は
+
+```perl
+$latex = 'lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error --shell-escape %S';
+```
+
+を
+
+```perl
+$latex = 'platex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error --shell-escape %S';
+```
+
+に変更してください。そろそろ(u)pLaTeXは不味そうなので、各学会の迅速な対応をお願いしたいところです。
 
 ### 保存時にエラーが出る、buildが通らない等
 

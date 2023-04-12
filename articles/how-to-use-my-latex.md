@@ -295,7 +295,11 @@ sh ./bin/svg2pdf.sh
 ### 学会提出用の論文作成時のエラー
 
 実際に後輩が遭遇していた例ですが、論文を学会に提出する際に”未対応の圧縮形式”というエラーが出ることがあります。
-画像の圧縮を解除する等の方法が提示されていますが、我々の環境では`dvipdfmx`のオプションで出力されるPDFのバージョンを変更することで対応できました。
+画像の圧縮を解除する等の方法が提示されていますが、PDFのバージョンを変更することで対応できました。
+
+#### (u)pLaTeX使用時
+
+dvipdfmxのオプションを変更して対応します。
 
 `.latexmkrc`の中にある
 
@@ -310,6 +314,18 @@ $dvipdf = 'dvipdfmx -V 4 %O -o %D %S';
 ```
 
 に変更してください。
+
+#### LuaLaTeX使用時
+
+bxpdfverパッケージを使用して対応します。
+
+main.texのdocumentclassS指定の後に
+
+```latex
+\usepackage[1.4]{bxpdfver}
+```
+
+を追加してください。bxpdfverの使い方は[こちら](https://github.com/zr-tex8r/BXpdfver/blob/master/README-ja.md)を参照してください。
 
 ### 学会指定のスタイルファイルがbuildできないとき
 

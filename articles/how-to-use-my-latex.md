@@ -319,7 +319,7 @@ $dvipdf = 'dvipdfmx -V 4 %O -o %D %S';
 
 bxpdfverパッケージを使用して対応します。
 
-main.texのdocumentclassS指定の後に
+main.texのdocumentclass指定の後に
 
 ```latex
 \usepackage[1.4]{bxpdfver}

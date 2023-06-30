@@ -170,7 +170,7 @@ LaTeXにおけるコードのインデントは文章構造の理解などに役
 
 だたし、latexindentの設定ファイルである`localSettings.yaml`は発展途上です。バグや改善提案はissueに投げてください。
 
-### Linterの使い方
+### github actionsにおける文章校正
 
 LaTeXで記述した文章に校正をかけることができます。
 記述した文章を[textlint](https://textlint.github.io/)とgithub actionsを使用して校正します。
@@ -180,6 +180,17 @@ LaTeXで記述した文章に校正をかけることができます。
 
 使い方は単純で、PR時に自動でコメントをしてくれるので普段はdevブランチで作業し、一段落したらmain/masterブランチにPRを出しLinterで指摘点を確認、修正したり無視したりを決定するといいと思います。
 ただし、一回無視した指摘点は再度指摘されないので注意してください。
+
+### 文章記述中のtextlint
+
+文章記述中にもtextlintを使用することができます。
+まず最初に
+
+```shell
+sh ./bin/install_textlint.sh
+```
+
+を実行しtextlintをインストールした上で、VSCodeの拡張機能である[vscode-textlint](https://marketplace.visualstudio.com/items?itemName=taichi.vscode-textlint)をインストールしてください。
 
 ### github actionsを用いたbuildとrelease
 

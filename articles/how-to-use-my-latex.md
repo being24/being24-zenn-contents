@@ -243,7 +243,7 @@ VSCodeのエクスプローラから、対象のファイルを右クリック�
 Windowsでは、その方法で取得される文字列は`figures\screenshot.png`となります。
 しかし、これをそのままLaTeXに渡すとエラーが起きてしまいます。これはlinuxとwindowsのパスの表し方の違いであるため、`figures/screenshot.png`と修正する必要があります。(バックスラッシュをスラッシュにする)
 
-### linter.shの改行コード問題
+### shell scriptの改行コード問題
 
 ![エラー画面](https://storage.googleapis.com/zenn-user-upload/20e25614588e-20220702.png)
 
@@ -256,8 +256,14 @@ Windowsでは、その方法で取得される文字列は`figures\screenshot.pn
 /workdir/bin/linter.sh: 5: Syntax error: word unexpected (expecting "do")
 ```
 
-このエラーは、`bin/linter.sh`の改行コードがLFからCRLFに変更されている場合に生じます。改行コードをLFに変更してください。
-このエラーはwindows版gitのインストール時のオプションで、改行コードの自動変更が行われることが原因である可能性があります。
+```shell
+./bin/build.sh: 2:
+: not found
+./bin/build.sh: 8: Syntax error: end of file unexpected (expecting "then")
+```
+
+このエラーは、shell scriptの改行コードがLFからCRLFに変更されている場合に生じます。改行コードをLFに変更してください。
+windows版gitのインストール時のオプションで、改行コードの自動変更が行われることが原因である可能性があります。
 最近のエディタは基本どの改行コードでも対応できると思うため、この設定を切ってしまうことをおすすめします。
 
 ### 画像の幅の問題

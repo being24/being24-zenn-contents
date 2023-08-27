@@ -489,3 +489,37 @@ biber使用時は以前の記述方法は使用できず、biber用のjunsrtは�
 trad-unsrtだけでは、日本語の文献名が太字になってしまうため、`journaltitle`の書式を上書きしています。
 
 [参考文献](https://okumuralab.org/tex/mod/forum/discuss.php?d=3336#p20271)
+
+### 参考文献(biblatex)の書式変更について2
+
+学会によっては、参考文献のリストにおいて、1)などの片括弧を使用し、かつ、引用箇所の右肩に1)を表示することを求めています。その場合は、
+
+```latex
+\DeclareFieldFormat{labelnumberwidth}{{#1})\hspace{.5\jlreq@zw}} % 参考文献番号の後ろに)をつける
+
+% \mkbibparens のコピーを作成して片括弧のマクロを作成
+\let\onebrackets\mkbibparens
+\renewcommand*{\onebrackets}[1]{\textsuperscript{#1)}}
+
+\DeclareCiteCommand{\cite}[\onebrackets]
+    {\usebibmacro{prenote}}
+    {\usebibmacro{citeindex}%
+    \usebibmacro{cite}}
+    {\multicitedelim}
+    {\usebibmacro{postnote}}
+```
+
+を追加してください。
+
+
+### 昔のバージョンのTeX Liveを使用したい場合
+
+互換性の問題などから、昔のバージョンのTeX Liveを使用したい場合があります。
+本当は専用のリポジトリなりを作成すべきですが、frozenのTeX Liveをimageにしておくことで対応しています。
+
+<!-- 表 -->
+| frozen version | frozen tag |
+|:---:|:---:|
+| 2022 | 3.2.6 |
+
+本来は2022などのタグを付けることが好ましいですが、自分の理解不足かうまくいかなかったため、3.2.6になっています。

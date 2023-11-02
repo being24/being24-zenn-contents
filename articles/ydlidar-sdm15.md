@@ -20,11 +20,46 @@ https://github.com/being24/YDLIDAR-SDM15_python
 
 ## 使い方
 
-sample.pyを参考にしてください。
+```python
+from SDM15 import SDM15, BaudRate
+
+if __name__ == "__main__":
+    lidar = SDM15("/dev/ttyUSB0", BaudRate.BAUD_460800) # change the port name to your own port
+
+    version_info = lidar.obtain_version_info()
+    print("get version info success")
+
+    lidar.lidar_self_test()
+    print("self test success")
+
+    lidar.start_scan()
+
+    while True:
+        try:
+            distance, intensity, disturb = lidar.get_distance()
+            print(f"distance: {distance}, intensity: {intensity}, disturb: {disturb}")
+        except KeyboardInterrupt:
+            break
+```
+
+ポートとBaudRateを指定して、SDM15のインスタンスを作成します。
+
+その後、`obtain_version_info`でバージョン情報を取得し、`lidar_self_test`でセンサの自己診断を行います。
+
+`start_scan`で計測を開始し、`get_distance`で計測結果を取得します。
+
+## Tips
+
+- Scan中は、`stop_scan`で計測を停止するか、`get_distance`を呼び出すことしかできません。設定などを変更したい場合は、`stop_scan`で計測を停止してから行ってください。
+- このセンサは`start_scan`を呼び出さなければ計測を開始しません。
+- 開発マニュアルには、このセンサを使用するときは以下の手順を踏むことを推奨しています。
+  - まず`obtain_version_info`でバージョン情報を取得する
+  - 次に`lidar_self_test`でセンサの自己診断を行う
+  - 最後に`start_scan`で計測を開始する
 
 ## 愚痴
 
 SDM15はBaudRateを230400、460800、512000、921600、1500000から選択できます。
-しかしながら、SDM15用に案内されているUSB-UART変換モジュールはCP2102を採用しており、センサで使用できる選択肢は230400、460800、921600のみであり、512000、1500000は使用できません。
+しかしながら、SDM15用に案内されているUSB-UART変換モジュールはCP2102を採用しており、センサで使用できる選択肢は230400、460800、921600のみであるため、512000、1500000は使用できません。
 ライブラリ開発中にBaudRateを1500000に設定したところセンサとの通信ができなくなり、FT231Xを引っ張り出す羽目になりました。
-付属品みたいなものなのに、センサとBaudRateが合わないのは勘弁してほしい……。
+付属品みたいなものなのに、センサのBaudRateに対応できないのは勘弁してほしい……。

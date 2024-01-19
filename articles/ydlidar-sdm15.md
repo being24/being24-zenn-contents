@@ -148,9 +148,15 @@ void loop() {
   // wait 1s
   delay(1000);
 
-  // exit(0);
+  exit(0);
 }
 ```
+
+Arduino版では、`SDM15.h`をインクルードして、SDM15のインスタンスを作成します。
+
+その後、`ObtainVersionInfo`でバージョン情報を取得し、`SelfCheckTest`でセンサの自己診断を行います。
+
+`StartScan`で計測を開始し、`GetScanData`で計測結果を取得します。
 
 ## Tips
 
@@ -161,7 +167,7 @@ void loop() {
   - まず`obtain_version_info`でバージョン情報を取得する
   - 次に`lidar_self_test`でセンサの自己診断を行う
   - 最後に`start_scan`で計測を開始する
-- このライブラリは、`atexit`を使用してプログラム終了時に`stop_scan`を呼び出したあとにシリアルポートを自動的に閉じます。
+- python版のライブラリは、`atexit`を使用してプログラム終了時に`stop_scan`を呼び出したあとにシリアルポートを自動的に閉じます。
 
 ## 愚痴
 

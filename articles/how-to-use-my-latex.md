@@ -351,16 +351,23 @@ main.texのdocumentclass指定の後に
 そういった場合は、`.latexmkrc`の中の
 
 ```perl
-$latex = 'lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error --shell-escape %S';
+$pdf_mode = 4;
 ```
 
 を
 
 ```perl
-$latex = 'uplatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error --shell-escape %S';
+$pdf_mode = 3;
 ```
 
-に変更してください。この変更を行っても
+に変更してください。
+この変更により、`latexmk`実行時のコマンドが `$lualatex`から`$latex`に変更され、upLaTeXでのビルドが行われます。
+
+学会によってはplatexを使用する場合もありますが、そういった場合は`$latex`の`uplatex`を`platex`に変更してください。
+
+そろそろ(u)pLaTeXは不味そうなので、各学会の迅速な対応をお願いしたいところです。
+
+このuplatexへ変更を行っても
 
 ```shell
 ! LaTeX Error: Encoding scheme `JY1' unknown.
@@ -391,21 +398,7 @@ $latex = 'uplatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-
 \documentclass[uplatex]{jsarticle}
 ```
 
-に変更することで解決します。
-
-また、学会によってはjarticle等を使用していない場合があります。そういった場合は
-
-```perl
-$latex = 'lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error --shell-escape %S';
-```
-
-を
-
-```perl
-$latex = 'platex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error --shell-escape %S';
-```
-
-に変更してください。そろそろ(u)pLaTeXは不味そうなので、各学会の迅速な対応をお願いしたいところです。
+に変更することで解決できます。
 
 ### 保存時にエラーが出る、buildが通らない等
 

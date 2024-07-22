@@ -541,3 +541,37 @@ Overleafの場合は、新規プロジェクトをクリックし、プロジェ
 
 この修正により、旧バージョンのdocker imageを使用していた文章を新しいdocker imageで変更しようとすると、パーミッションエラーが出ます。
 この場合、一度githubなどにpushしてから、cloneし直すことで解決できます。
+
+### 突然github actionsでのビルドが通らなくなった場合
+
+docker imageのユーザを変更した影響で、従来通っていたリポジトリでgithub actionsでのbuildが通らなくなる事象が確認されています。
+これは、github actionsの仕様によるものです。
+
+`.github/workflows/build.yml`の
+
+```yaml
+# 実行されるジョブの定義
+jobs:
+  # PDFのビルドジョブ
+  build:
+    runs-on: ubuntu-20.04
+    container:
+      # もし独自のDockerイメージを変更したい場合、ここを変更する
+      image: ghcr.io/being24/latex-docker:latest
+```
+
+の`image`の後に`options: --user root`を追加して、
+
+```yaml
+# 実行されるジョブの定義
+jobs:
+  # PDFのビルドジョブ
+  build:
+    runs-on: ubuntu-20.04
+    container:
+      # もし独自のDockerイメージを変更したい場合、ここを変更する
+      image: ghcr.io/being24/latex-docker:latest
+      options: --user root
+```
+
+としてください。

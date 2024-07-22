@@ -545,7 +545,7 @@ Overleafの場合は、新規プロジェクトをクリックし、プロジェ
 ### 突然github actionsでのビルドが通らなくなった場合
 
 docker imageのユーザを変更した影響で、従来通っていたリポジトリでgithub actionsでのbuildが通らなくなる事象が確認されています。
-これは、github actionsの仕様によるものです。
+これは、github actionsの仕様によるものです。こういった場合は、`.github/workflows/build.yml`を確認してください。
 
 `.github/workflows/build.yml`の
 

@@ -613,3 +613,38 @@ jobs:
 ```
 
 としてください。
+
+### jlreqとupLaTeXを併用したときに文字化けが発生する場合
+
+2024-08-23にjlreqが更新され、このバージョンのjlreq（clsやstyでの使用を含む）をupLaTeXでbuildすると文字化けが発生することを確認しています。
+開発者様も確認されているようなので、そのうち解決させると思いますが、luaLaTeXを使用するか、jlreqのバージョンを下げる、docker imageを使用している場合は、前のバージョンのimageを使用するなどで対応可能です。
+
+自分のテンプレートでluaLaTeXを使用するには、`.latexmkrc`の
+
+```perl
+$pdf_mode = 3;
+```
+
+を
+
+```perl
+$pdf_mode = 4;
+```
+
+に変更してください。
+
+docker imageの前のバージョンを使用する場合は、`ghcr.io/being24/latex-docker:24.08.0`を使用してください。
+
+`.devcontainer/devcontainer.json`の
+
+```json
+"image": "ghcr.io/being24/latex-docker",
+```
+
+を
+
+```json
+"image": "ghcr.io/being24/latex-docker:24.08.0",
+```
+
+に変更すると正常にbuildできることを確認しています。

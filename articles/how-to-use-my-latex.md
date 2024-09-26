@@ -69,6 +69,7 @@ VSCodeは.vscode内にsettings.jsonが存在する場合、個人設定を上書
 
 * [VSCode](https://code.visualstudio.com/)
   * [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)(必須)
+  * [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)(必須)
   * [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph)等、あとはお好みで
 * [Docker](https://www.docker.com/)
   * Windowsの方は[Docker Desktop for Windows](https://docs.docker.com/desktop/windows/install/)

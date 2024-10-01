@@ -347,59 +347,33 @@ main.texのdocumentclass指定の後に
 
 ### 学会指定のスタイルファイルがbuildできないとき
 
-本テンプレートは、LuaLaTeXでのビルドを前提としていますが、学会によっては、(u)pLaTeXでのビルドを指定している場合があります。
-
-そういった場合は、`.latexmkrc`の中の
-
-```perl
-$pdf_mode = 4;
-```
-
-を
-
-```perl
-$pdf_mode = 3;
-```
-
-に変更してください。
-この変更により、`latexmk`実行時のコマンドが `$lualatex`から`$latex`に変更され、upLaTeXでのビルドが行われます。
-
-学会によってはplatexを使用する場合もありますが、そういった場合は`$latex`の`uplatex`を`platex`に変更してください。
-
-そろそろ(u)pLaTeXは不味そうなので、各学会の迅速な対応をお願いしたいところです。
-
-このuplatexへ変更を行っても
+本テンプレートの標準設定はupLaTeXでのビルドを前提としています。
+学会などが用意したテンプレートには、どのlatexでビルドするかが指定されていることがあります。
+upLaTeXでのビルドが指定されている場合はそのままで問題ありませんが、pLaTeXでのビルドを指定されている場合は、標準の設定のままでは以下のようなエラーが出ることがあります。
 
 ```shell
-! LaTeX Error: Encoding scheme `JY1' unknown.
+tShape{JT1}{gt}{m}{it}{<-> ssub*gt/m/n}{}
 ```
 
-というエラーが出てbuildできないことがあります。
-これは、指定されたクラスがjarticleであれば
+このエラーはpLaTeXでビルドすることを指定されているにもかかわらず、upLaTeXでのビルドされているために生じるエラーです。
 
-```latex
-\documentclass{jarticle}
+この場合、`.latexmkrc`の中にある
+
+```shell
+# $latex = 'platex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error %O %S';
+$latex = 'uplatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error %O %S';
 ```
 
-の部分を
+の上の行をコメントアウトを外し、下の行をコメントアウトしてください。
 
-```latex
-\documentclass{ujarticle}
+```shell
+$latex = 'platex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error %O %S';
+# $latex = 'uplatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error %O %S';
 ```
 
-に変更することで、指定されたクラスがjsarticleであれば
+この変更によりpLaTeXでのビルドが行われます。
 
-```latex
-\documentclass{jsarticle}
-```
-
-の部分を
-
-```latex
-\documentclass[uplatex]{jsarticle}
-```
-
-に変更することで解決できます。
+そろそろ(u)pLaTeXは不味そうなので、各学会の迅速な対応をお願いしたいところです。
 
 ### 保存時にエラーが出る、buildが通らない等
 

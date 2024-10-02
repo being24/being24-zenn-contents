@@ -622,3 +622,37 @@ docker imageの前のバージョンを使用する場合は、`ghcr.io/being24/
 ```
 
 に変更すると正常にbuildできることを確認しています。
+
+### フォーマッタが動作しない
+
+フォーマッタを使用したときに、
+
+```shell
+LaTeX formatter is set to "none" by `formatting.latex`.
+```
+
+と表示される場合があります。
+これはlatex-workshopの設定が変更され、フォーマッタにlatexindentのみではなく、tex-fmtも使用できるようになったためです。
+
+最新版のテンプレートでは、この設定ファイルの変更に対応しているため、このエラーに遭遇した場合は、最新版の`settings.json`でローカルの`settings.json`を上書きしてください。
+
+手動で修正する場合は、`settings.json`の
+
+```json
+    "latex-workshop.latexindent.path": "sh",
+    "latex-workshop.latexindent.args": [
+        "./bin/linter.sh",
+    ],
+```
+
+を
+
+```json
+    "latex-workshop.formatting.latex": "latexindent",
+    "latex-workshop.formatting.latexindent.path": "sh",
+    "latex-workshop.formatting.latexindent.args": [
+        "./bin/linter.sh",
+    ],
+```
+
+に変更してください。

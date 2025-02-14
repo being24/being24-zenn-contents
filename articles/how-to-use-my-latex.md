@@ -567,7 +567,7 @@ docker imageのユーザを変更した影響で、従来通っていたリポ�
 jobs:
   # PDFのビルドジョブ
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     container:
       # もし独自のDockerイメージを変更したい場合、ここを変更する
       image: ghcr.io/being24/latex-docker:latest
@@ -580,7 +580,7 @@ jobs:
 jobs:
   # PDFのビルドジョブ
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     container:
       # もし独自のDockerイメージを変更したい場合、ここを変更する
       image: ghcr.io/being24/latex-docker:latest
